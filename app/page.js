@@ -1,11 +1,11 @@
 import Image from "next/image";
 import InfinityLoop from "../component/InfiniteLoop";
 import MenuBar from "./menu/nav/page";
-import coach_home from "../Images/coach_home.jpg";
+import AdvertiseToHome from "@/component/advertiseToHome";
 
 export default function Home() {
   return (
-    <div className=" bg-zinc-50 min-h-screen">
+    <div className=" bg-zinc-50 min-h-screen w-full">
       <MenuBar></MenuBar>
       <div className="flex items-center justify-center bg-zinc-50 font-sans dark:bg-black gap-8">
         <div className="flex flex-col items-center">
@@ -18,13 +18,14 @@ export default function Home() {
         </div>
 
         <Image
-          src={coach_home}
+          src="/images/coach_home.jpg"
           width={330}
           height={385}
           alt="image_coach_home"
           className="rounded-xl shadow-lg m-1"
         />
       </div>
+      <AdvertiseToHome></AdvertiseToHome>
     </div>
   );
 }
