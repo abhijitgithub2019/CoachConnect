@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LoginButton } from "./loginbutton";
 export default function MenuBar() {
   return (
     <div>
@@ -27,9 +28,7 @@ export default function MenuBar() {
             >
               Schedule A Demo
             </Link>
-            <Link href="/login" className="hover:text-green-700 font-semibold">
-              Login/signUp
-            </Link>
+           <LoginButton></LoginButton>
           </div>
         </div>
       </nav>
