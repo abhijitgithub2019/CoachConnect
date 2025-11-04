@@ -2,9 +2,11 @@
 import { useState } from "react";
 import MenuBar from "../menu/nav/page";
 import AdvertiseToHome from "@/component/advertiseToHome";
+import { LoginUser, PostUser } from "../apiCall/signUpApi";
 
 export default function AuthForm() {
   const [isSignup, setIsSignup] = useState(true);
+  const [isSignupError, setIsSignupError] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -53,16 +55,33 @@ export default function AuthForm() {
     if (validateForm()) {
       setSubmitted(true);
       if (isSignup) {
-        console.log("Signup submitted:", formData);
-        // Add signup logic here
-        setFormData({ name: "", email: "", password: "" });
+        const signUp = async () => {
+          let res = await PostUser(formData);
+          if (res.error) {
+            setIsSignupError(res.error);
+            alert(res.error);
+          } else if (res.status === 201) {
+            setIsSignupError("Signup successful!");
+            alert(
+              "Welcome to CoachConnect, Registration is created sucessfully"
+            );
+          }
+        };
+        signUp();
+        // setFormData({ name: "", email: "", password: "" });
       } else {
-        console.log("Login submitted:", {
-          email: formData.email,
-          password: formData.password,
-        });
+        const login = async () => {
+          let res = await LoginUser(formData);
+          if (res.error) {
+            setIsSignupError(res.error);
+          } else if (res.status === 200) {
+            setIsSignupError("Login successful!");
+            alert("Welcome to CoachConnect, LogIn successfull");
+          }
+        };
+        login();
         // Add login logic here
-        setFormData({ name: "", email: "", password: "" });
+        //setFormData({ name: "", email: "", password: "" });
       }
     }
   };
@@ -94,9 +113,6 @@ export default function AuthForm() {
                 } focus:outline-none focus:ring-2 focus:ring-emerald-400`}
                 required={isSignup}
               />
-              {errors.name && (
-                <p className="text-red-500 text-sm mb-3">{errors.name}</p>
-              )}
             </>
           )}
 
@@ -117,10 +133,6 @@ export default function AuthForm() {
             } focus:outline-none focus:ring-2 focus:ring-emerald-400`}
             required
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm mb-3">{errors.email}</p>
-          )}
-
           <label
             className="block mb-2 font-medium text-gray-700"
             htmlFor="password"
@@ -139,6 +151,12 @@ export default function AuthForm() {
             required
             autoComplete={isSignup ? "new-password" : "current-password"}
           />
+          {errors.name && (
+            <p className="text-red-500 text-sm mb-3">{errors.name}</p>
+          )}
+          {errors.email && (
+            <p className="text-red-500 text-sm mb-3">{errors.email}</p>
+          )}
           {errors.password &&
             (Array.isArray(errors.password) ? (
               <ul className="text-red-500 text-sm mb-3 list-disc list-inside">
@@ -176,11 +194,11 @@ export default function AuthForm() {
 
         {submitted && (
           <p className="mt-4 text-green-600 font-medium text-center">
-            {isSignup ? "Signup successful!" : "Login successful!"}
+            {isSignupError ? isSignupError : null}
           </p>
         )}
       </div>
-      <AdvertiseToHome></AdvertiseToHome>
+      {/* <AdvertiseToHome></AdvertiseToHome> */}
     </div>
   );
 }
