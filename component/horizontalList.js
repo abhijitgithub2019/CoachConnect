@@ -27,57 +27,60 @@ export default function InstructorList({ instructors, className }) {
 
   return (
     <div className="max-w-6xl mx-auto px-4">
-     <div className="relative max-w-[960px] ml-[-40px]">
-  {/* Left arrow button */}
-  <button
-    aria-label="Scroll Left"
-    onClick={() => scroll("left")}
-    className="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white rounded-full p-3 shadow hover:bg-gray-100"
-  >
-    &#8592;
-  </button>
+      <div className="relative max-w-[960px] -ml-10">
+        {/* Conditionally render left arrow if more than 4 instructors */}
+        {instructors.length > 4 && (
+          <button
+            aria-label="Scroll Left"
+            onClick={() => scroll("left")}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 bg-white rounded-full p-3 shadow hover:bg-gray-100"
+          >
+            &#8592;
+          </button>
+        )}
 
-  {/* Scroll container showing 4 cards by width */}
-  <div
-    ref={scrollRef}
-    className="flex space-x-5 overflow-x-auto no-scrollbar py-4 scroll-smooth w-[956px]"
-  >
-    {instructors.map((ins) => {
-      const isSelected = selectedInstructor?.name === ins.name;
-      return (
+        {/* Scroll container showing 4 cards by width */}
         <div
-          key={ins.name}
-          className={`shrink-0 w-56 bg-white rounded-lg shadow p-4 flex flex-col items-center cursor-pointer m-1 transition-shadow duration-500 ${
-            isSelected ? "ring-4 ring-blue-400" : ""
-          } ${className}`}
-          onClick={() => {
-            setSelectedInstructor(ins);
-            setSelectedSlot(null);
-          }}
+          ref={scrollRef}
+          className="flex space-x-5 overflow-x-auto no-scrollbar py-4 scroll-smooth w-[956px]"
         >
-          <Image
-            src={ins.avatar}
-            alt={ins.name}
-            className="h-56 w-56 object-cover mb-3 rounded-sm"
-            height={200}
-            width={200}
-          />
-          <div className="font-medium">{ins.name}</div>
+          {instructors.map((ins) => {
+            const isSelected = selectedInstructor?.name === ins.name;
+            return (
+              <div
+                key={ins.name}
+                className={`shrink-0 w-56 bg-white rounded-lg shadow p-4 flex flex-col items-center cursor-pointer m-1 transition-shadow duration-500 ${
+                  isSelected ? "ring-4 ring-blue-400" : ""
+                } ${className}`}
+                onClick={() => {
+                  setSelectedInstructor(ins);
+                  setSelectedSlot(null);
+                }}
+              >
+                <Image
+                  src={ins.avatar}
+                  alt={ins.name}
+                  className="h-56 w-56 object-cover mb-3 rounded-sm"
+                  height={200}
+                  width={200}
+                />
+                <div className="font-medium">{ins.name}</div>
+              </div>
+            );
+          })}
         </div>
-      );
-    })}
-  </div>
 
-  {/* Right arrow button */}
-  <button
-    aria-label="Scroll Right"
-    onClick={() => scroll("right")}
-    className="absolute right-0 top-1/2 transform -translate-y-1/2 z-20 bg-white rounded-full p-3 shadow hover:bg-gray-100"
-  >
-    &#8594;
-  </button>
-</div>
-
+        {/* Conditionally render right arrow if more than 4 instructors */}
+        {instructors.length > 4 && (
+          <button
+            aria-label="Scroll Right"
+            onClick={() => scroll("right")}
+            className="absolute -right-70 top-1/2 transform -translate-y-1/2 z-20 bg-white rounded-full p-3 shadow hover:bg-gray-100"
+          >
+            &#8594;
+          </button>
+        )}
+      </div>
 
       {selectedInstructor && (
         <div className="mt-6 bg-white p-6 rounded-lg shadow max-w-4xl mx-auto">

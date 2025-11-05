@@ -78,6 +78,18 @@ export default function CoachLandingPage() {
       avatar: "/images/gopal.jpg",
       topics: ["Leadership", "Education"],
     },
+    {
+      name: "Minho",
+      avatar: "/images/minho.jpg",
+      topics: ["Career", "Education"],
+      availableTimes: {
+        // date strings in yyyy-mm-dd format with available time slots
+        "2025-11-06": ["10AM - 12AM", "4PM - 5PM"],
+        "2025-11-07": ["9AM - 11AM", "12AM - 4AM", "3PM - 4PM", "5PM - 8PM", "10PM -12PM"],
+        "2025-11-08": ["9-11", "3-4"],
+        // add more dates and slots as needed
+      },
+    },
     // ...more
   ];
   const [selectedTopic, setSelectedTopic] = useState("Career");
