@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
 import MenuBar from "../menu/nav/page";
-import AdvertiseToHome from "@/component/advertiseToHome";
+// import AdvertiseToHome from "@/component/advertiseToHome";
 import { LoginUser, PostUser } from "../apiCall/signUpApi";
+import { redirect } from "next/navigation";
 
 export default function AuthForm() {
   const [isSignup, setIsSignup] = useState(true);
@@ -62,9 +63,10 @@ export default function AuthForm() {
             alert(res.error);
           } else if (res.status === 201) {
             setIsSignupError("Signup successful!");
-            alert(
-              "Welcome to CoachConnect, Registration is created sucessfully"
-            );
+            // alert(
+            //   "Welcome to CoachConnect, Registration is created sucessfully"
+            // );
+            redirect("/CoachDashborad");
           }
         };
         signUp();
@@ -76,7 +78,8 @@ export default function AuthForm() {
             setIsSignupError(res.error);
           } else if (res.status === 200) {
             setIsSignupError("Login successful!");
-            alert("Welcome to CoachConnect, LogIn successfull");
+            redirect("/CoachDashborad");
+            // alert("Welcome to CoachConnect, LogIn successfull");
           }
         };
         login();

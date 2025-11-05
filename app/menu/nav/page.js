@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LoginButton } from "./loginbutton";
-export default function MenuBar() {
+export default function MenuBar({ isLogOut = false }) {
   return (
     <div>
       <nav className="bg-white w-full rounded-2xl">
@@ -22,13 +22,15 @@ export default function MenuBar() {
           </div>
           {/* Right side links */}
           <div className="flex items-center space-x-4">
-            <Link
-              href="/schedule"
-              className="px-6 py-2 bg-green-700 text-white font-bold rounded-md hover:bg-green-800"
-            >
-              Schedule A Demo
-            </Link>
-           <LoginButton></LoginButton>
+            {!isLogOut && (
+              <Link
+                href="/schedule"
+                className="px-6 py-2 bg-green-700 text-white font-bold rounded-md hover:bg-green-800"
+              >
+                Schedule A Demo
+              </Link>
+            )}
+            <LoginButton isLogOut={isLogOut}></LoginButton>
           </div>
         </div>
       </nav>

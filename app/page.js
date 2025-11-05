@@ -1,7 +1,8 @@
 import Image from "next/image";
 import InfinityLoop from "../component/InfiniteLoop";
 import MenuBar from "./menu/nav/page";
-import AdvertiseToHome from "@/component/advertiseToHome";
+import AdvertiseToHome from "../component/advertiseToHome";
+// import AdvertiseToHome from "@/component/advertiseToHome";
 
 export default function Home() {
   return (
@@ -25,7 +26,7 @@ export default function Home() {
           className="rounded-xl shadow-lg m-1"
         />
       </div>
-      <AdvertiseToHome></AdvertiseToHome>
+     <AdvertiseToHome></AdvertiseToHome>
     </div>
   );
 }
