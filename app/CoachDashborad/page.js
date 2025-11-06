@@ -23,7 +23,7 @@ export default function CoachLandingPage() {
       topics: ["Career", "Education"],
       availableTimes: {
         // date strings in yyyy-mm-dd format with available time slots
-        "2025-11-06": ["10AM - 12AM", "4PM - 5PM"],
+        "2025-11-06": ["10AM - 12PM", "4PM - 5PM"],
         "2025-11-07": [
           "9AM - 11AM",
           "1PM - 2PM",

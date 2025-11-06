@@ -231,7 +231,7 @@ export default function InstructorList({ instructors, className }) {
                         );
                       })
                     ) : (
-                      <div className="italic text-gray-400 flex-shrink-0">
+                      <div className="italic text-gray-400 shrink-0">
                         No slots
                       </div>
                     )}
@@ -244,16 +244,16 @@ export default function InstructorList({ instructors, className }) {
       )}
 
       {showModal && (
-        <div className="fixed inset-0 bg-gray-400 bg-opacity-50 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-blue-200 bg-opacity-10 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg max-w-md w-full relative">
             <button
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-900"
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-900 text-4xl"
               onClick={() => setShowModal(false)}
               aria-label="Close"
             >
               &times;
             </button>
-            <h3 className="text-xl font-semibold mb-4">
+            <h3 className="text-xl font-semibold mb-6">
               Adjust Booking Duration
             </h3>
             <p className="mb-4">
@@ -290,7 +290,7 @@ export default function InstructorList({ instructors, className }) {
               className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 transition cursor-pointer"
               onClick={confirmBooking}
             >
-              Confirm Booking
+              Confirm Booking & Pay
             </button>
           </div>
         </div>
