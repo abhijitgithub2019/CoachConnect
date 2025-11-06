@@ -5,6 +5,10 @@ import { useRef, useState } from "react";
 export default function InstructorList({ instructors, className }) {
   const [selectedInstructor, setSelectedInstructor] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [duration, setDuration] = useState(15); // minutes
+  const [maxDuration, setMaxDuration] = useState(60); // max mi
+
   const scrollRef = useRef(null);
   const getNext7Days = () => {
     const days = [];
@@ -16,6 +20,45 @@ export default function InstructorList({ instructors, className }) {
     return days;
   };
 
+  const timeToMinutes = (timeStr) => {
+    const [hourStr, minuteStr] = timeStr.split(":");
+    return parseInt(hourStr, 10) * 60 + parseInt(minuteStr, 10);
+  };
+
+  // Helper to format minutes since midnight back to "HH:mm"
+  const minutesToTime = (mins) => {
+    const hour = Math.floor(mins / 60);
+    const minute = mins % 60;
+    return `${hour.toString().padStart(2, "0")}:${minute
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
+  const openBookingModal = (slotKey) => {
+    setSelectedSlot(slotKey);
+    setDuration(15); // Minimum 15 mins
+    // Calculate maxDuration based on end of day (12 AM) for simplicity here
+    // Extract time from slotKey, example: "2025-11-06-10:00"
+    const slotTime = slotKey.split("-").pop();
+    const slotMins = timeToMinutes(slotTime);
+    const endOfDayMins = 24 * 60; // midnight in minutes
+    const maxDur = endOfDayMins - slotMins;
+    setMaxDuration(maxDur);
+    setShowModal(true);
+  };
+
+  const handleDurationChange = (newDuration) => {
+    if (newDuration >= 15 && newDuration <= maxDuration) {
+      setDuration(newDuration);
+    }
+  };
+
+  const confirmBooking = () => {
+    alert(
+      `Booked ${selectedSlot} for ${duration} minutes with ${selectedInstructor.name}`
+    );
+    setShowModal(false);
+  };
   const scroll = (direction) => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({
@@ -134,11 +177,7 @@ export default function InstructorList({ instructors, className }) {
                             {isSelected && (
                               <button
                                 className="mt-2 bg-green-600 text-white px-5 py-1 rounded hover:bg-green-700 text-xs whitespace-nowrap"
-                                onClick={() =>
-                                  alert(
-                                    `Booked slot: ${slotKey} with ${selectedInstructor.name}`
-                                  )
-                                }
+                                onClick={() => openBookingModal(slotKey)}
                               >
                                 Book
                               </button>
@@ -155,6 +194,48 @@ export default function InstructorList({ instructors, className }) {
                 </div>
               );
             })}
+          </div>
+        </div>
+      )}
+      {showModal && (
+        <div className="fixed inset-0 bg-gray-400 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg max-w-md w-full relative">
+            <button
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-900"
+              onClick={() => setShowModal(false)}
+              aria-label="Close"
+            >
+              &times;
+            </button>
+            <h3 className="text-xl font-semibold mb-4">
+              Adjust Booking Duration
+            </h3>
+            <p className="mb-4">
+              Selected Time: {selectedSlot?.split("-").pop()}
+            </p>
+            <div className="flex items-center space-x-4 mb-6">
+              <button
+                className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+                onClick={() => handleDurationChange(duration - 15)}
+                disabled={duration <= 15}
+              >
+                -
+              </button>
+              <span>{duration} minutes</span>
+              <button
+                className="px-3 py-1 bg-gray-300 rounded disabled:opacity-50"
+                onClick={() => handleDurationChange(duration + 15)}
+                disabled={duration >= maxDuration}
+              >
+                +
+              </button>
+            </div>
+            <button
+              className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 transition"
+              onClick={confirmBooking}
+            >
+              Confirm Booking
+            </button>
           </div>
         </div>
       )}

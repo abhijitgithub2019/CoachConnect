@@ -5,6 +5,7 @@ import TopicFilterBar from "../../component/topicFilter";
 import MenuBar from "../menu/nav/page";
 import SearchBar from "../../component/searchbar";
 import Image from "next/image";
+import BentWallImages from "../../component/bentWallImages";
 
 export default function CoachLandingPage() {
   const TOPICS = [
@@ -23,8 +24,14 @@ export default function CoachLandingPage() {
       availableTimes: {
         // date strings in yyyy-mm-dd format with available time slots
         "2025-11-06": ["10AM - 12AM", "4PM - 5PM"],
-        "2025-11-07": ["9AM - 11AM", "12AM - 4AM", "3PM - 4PM", "5PM - 8PM", "10PM -12PM"],
-        "2025-11-08": ["9-11", "3-4"],
+        "2025-11-07": [
+          "9AM - 11AM",
+          "1PM - 2PM",
+          "3PM - 4PM",
+          "5PM - 8PM",
+          "10PM -12PM",
+        ],
+        "2025-11-08": ["9AM - 11AM", "3PM - 4PM"],
         // add more dates and slots as needed
       },
     },
@@ -85,7 +92,13 @@ export default function CoachLandingPage() {
       availableTimes: {
         // date strings in yyyy-mm-dd format with available time slots
         "2025-11-06": ["10AM - 12AM", "4PM - 5PM"],
-        "2025-11-07": ["9AM - 11AM", "12AM - 4AM", "3PM - 4PM", "5PM - 8PM", "10PM -12PM"],
+        "2025-11-07": [
+          "9AM - 11AM",
+          "12AM - 4AM",
+          "3PM - 4PM",
+          "5PM - 8PM",
+          "10PM -12PM",
+        ],
         "2025-11-08": ["9-11", "3-4"],
         // add more dates and slots as needed
       },
@@ -113,6 +126,7 @@ export default function CoachLandingPage() {
   return (
     <div className="bg-zinc-50 min-h-screen w-full  bg-linear-to-br from-white via-blue-50 to-blue-100">
       <MenuBar isLogOut={true}></MenuBar>
+      <BentWallImages></BentWallImages>
       <div>
         <div className="max-w-2xl mx-auto px-4 py-8">
           <h2 className="text-2xl font-semibold mb-6 text-left px-20">
@@ -156,12 +170,18 @@ export default function CoachLandingPage() {
           </div>
         </div>
       </div>
-      <svg className="absolute top-0 left-0 w-64 h-64 opacity-20" viewBox="0 0 200 200">
-    <circle cx="100" cy="100" r="100" fill="#e0e7ff" />
-  </svg>
-  <svg className="absolute bottom-0 right-0 w-48 h-48 opacity-10" viewBox="0 0 200 200">
-    <rect width="200" height="200" fill="#bae6fd" />
-  </svg>
+      <svg
+        className="absolute top-0 left-0 w-64 h-64 opacity-20"
+        viewBox="0 0 200 200"
+      >
+        <circle cx="100" cy="100" r="100" fill="#e0e7ff" />
+      </svg>
+      <svg
+        className="absolute bottom-0 right-0 w-48 h-48 opacity-10"
+        viewBox="0 0 200 200"
+      >
+        <rect width="200" height="200" fill="#bae6fd" />
+      </svg>
     </div>
   );
 }
