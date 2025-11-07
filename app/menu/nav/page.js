@@ -8,7 +8,7 @@ export default function MenuBar({ isLogOut = false }) {
           {/* Left side links */}
           <div className="flex items-center space-x-6">
             <Link href="/" className="font-bold text-green-700 text-lg">
-              Coaching Connect
+              Coach Connect
             </Link>
             <Link href="/" className="hover:text-green-700">
               Home

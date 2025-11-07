@@ -11,7 +11,7 @@ export default function Home() {
       <div className="flex items-center justify-center bg-zinc-50 font-sans dark:bg-black gap-8">
         <div className="flex flex-col items-center">
           <p className="text-3xl font-extrabold text-emerald-800 text-center mb-2">
-            Welcome to 1:1 Coaching Connect Session
+            Welcome to 1:1 Coach Connect
           </p>
           <div className="flex items-center justify-center bg-zinc-50">
             <InfinityLoop />
