@@ -13,7 +13,7 @@ export default function InstructorList({ instructors, className }) {
   const [currencyChangeFees, setCurrencyChangeFees] = useState(1);
   const [showPaymentOverlay, setShowPaymentOverlay] = useState(false);
   const scrollRef = useRef(null);
-  
+
   const getNext7Days = () => {
     const days = [];
     for (let i = 0; i < 7; i++) {
@@ -259,7 +259,7 @@ export default function InstructorList({ instructors, className }) {
           <div className="fixed inset-0 bg-blue-200 bg-opacity-10 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-lg max-w-md w-full relative">
               <button
-                className="absolute top-4 right-4 text-gray-500 hover:text-gray-900"
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-900 text-3xl"
                 onClick={() => setShowModal(false)}
                 aria-label="Close"
               >

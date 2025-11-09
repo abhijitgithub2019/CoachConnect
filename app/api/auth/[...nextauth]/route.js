@@ -14,16 +14,23 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(Credentials) {
-        const user = await pris.user.findUnique({
-          where: { email: Credentials.email },
-        });
-        if (!user) throw new Error("No user found with this email");
-        const isValid = await bcrypt.compare(
-          Credentials.password,
-          user.password
-        );
-        if (!isValid) throw new Error("Incorrect password");
-        return { id: user.id, name: user.name, email: user.email };
+        try {
+          const user = await pris.user.findUnique({
+            where: { email: Credentials.email },
+          });
+          console.log(user);
+          if (!user) throw new Error("No user found with this email");
+          const isValid = await bcrypt.compare(
+            Credentials.password,
+            user.password
+          );
+          if (!isValid) throw new Error("Incorrect password");
+          return { id: user.id, name: user.name, email: user.email };
+        }
+        catch(err) {
+            throw new Error(err);
+        }
+       
       },
     }),
   ],

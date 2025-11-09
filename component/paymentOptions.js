@@ -1,13 +1,44 @@
-// components/PaymentOptions.js
 "use client";
 import Image from "next/image";
 import { useState } from "react";
 
-const qrCodeImageUrl =
-  "https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=your-upi-id@bank&pn=Your+Name&amount=10&cu=INR&mode=02&purpose=00&orgid=123&msg=Payment&size=200x200";
-
-export default function PaymentOptions() {
+export default function PaymentOptions({ userId, instructorId }) {
   const [selected, setSelected] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [amount, setAmount] = useState(1200);
+  const [qrCodeUrl, setQrCodeUrl] = useState(null); // 🆕 Add state for dynamic QR
+
+  const handlePhonePePayment = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/createPayment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: 1200, userId: "abc123" }),
+      });
+
+      const data = await res.json();
+      setLoading(false);
+
+      if (data.url) {
+        // 🧠 Option 1: Show dynamic QR code
+        // setQrCodeUrl(
+        //   `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
+        //     data.url
+        //   )}&size=200x200`
+        // );
+
+        // 🧠 Option 2: (if you want to redirect automatically)
+        window.location.href = data.url;
+      } else {
+        alert("Payment initialization failed");
+      }
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+      alert("Error creating payment order");
+    }
+  };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md space-y-6">
@@ -16,147 +47,86 @@ export default function PaymentOptions() {
       </h2>
 
       <div className="flex flex-col gap-4">
-        {/* Card Payment Option */}
+        {/* Card Option */}
         <button
-          onClick={() => setSelected("card")}
-          className={`flex items-center space-x-4 p-4 border rounded-lg cursor-pointer 
-            ${
-              selected === "card"
-                ? "border-blue-600 bg-blue-50"
-                : "border-gray-300 hover:border-blue-400"
-            }`}
+          onClick={() => {
+            setSelected("card");
+            setQrCodeUrl(null);
+          }}
+          className={`flex items-center space-x-4 p-4 border rounded-lg cursor-pointer ${
+            selected === "card"
+              ? "border-blue-600 bg-blue-50"
+              : "border-gray-300 hover:border-blue-400"
+          }`}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8 text-blue-600"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <rect
-              width="18"
-              height="12"
-              x="3"
-              y="6"
-              rx="2"
-              ry="2"
-              strokeWidth="2"
-            />
-            <line x1="3" y1="10" x2="21" y2="10" strokeWidth="2" />
-          </svg>
-          <span className="text-lg font-medium">Credit / Debit Card</span>
+          💳 <span className="text-lg font-medium">Credit / Debit Card</span>
         </button>
 
-        {/* QR Code / UPI Payment Option */}
+        {/* QR / UPI Option */}
         <button
-          onClick={() => setSelected("qr")}
-          className={`flex items-center space-x-4 p-4 border rounded-lg cursor-pointer
-            ${
-              selected === "qr"
-                ? "border-green-600 bg-green-50"
-                : "border-gray-300 hover:border-green-400"
-            }`}
+          onClick={() => {
+            setSelected("qr");
+            setQrCodeUrl(null);
+          }}
+          className={`flex items-center space-x-4 p-4 border rounded-lg cursor-pointer ${
+            selected === "qr"
+              ? "border-green-600 bg-green-50"
+              : "border-gray-300 hover:border-green-400"
+          }`}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8 text-green-600"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <rect
-              x="3"
-              y="3"
-              width="7"
-              height="7"
-              strokeWidth="2"
-              rx="1"
-              ry="1"
-            />
-            <rect
-              x="14"
-              y="3"
-              width="7"
-              height="7"
-              strokeWidth="2"
-              rx="1"
-              ry="1"
-            />
-            <rect
-              x="14"
-              y="14"
-              width="7"
-              height="7"
-              strokeWidth="2"
-              rx="1"
-              ry="1"
-            />
-            <rect
-              x="3"
-              y="14"
-              width="4"
-              height="4"
-              strokeWidth="2"
-              rx="1"
-              ry="1"
-            />
-          </svg>
-          <span className="text-lg font-medium">
-            QR Code / UPI (PhonePe, Google Pay)
-          </span>
+          🧾 <span className="text-lg font-medium">QR / UPI (PhonePe, GPay)</span>
         </button>
       </div>
 
-      {/* Conditional Display */}
-      {selected === "qr" && (
+      {/* Payment Logic */}
+      {selected && !qrCodeUrl && (
         <div className="mt-6 text-center">
-          <p className="mb-2 font-semibold text-green-700">
-            Scan the QR code to Pay
-          </p>
-          <Image
-            src={qrCodeImageUrl}
-            alt="UPI QR Code"
-            className="mx-auto w-48 h-48 border rounded-lg"
-            height={200}
-            width={300}
-          />
-          <p className="text-sm mt-2 text-gray-600">
-            Use PhonePe, Google Pay, or any UPI app to complete your payment.
-          </p>
+          <button
+            onClick={handlePhonePePayment}
+            disabled={loading}
+            className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:bg-gray-400"
+          >
+            {loading ? "Processing..." : "Continue to Payment"}
+          </button>
         </div>
       )}
 
-      {selected === "card" && (
-        <form className="space-y-4 mt-6">
-          <input
-            type="text"
-            placeholder="Card Number"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      {/* 🆕 Show QR code dynamically after API response */}
+      {qrCodeUrl && (
+        <div className="mt-8 text-center">
+          <p className="text-green-700 font-semibold mb-3">
+            Scan this QR to pay securely
+          </p>
+          <Image
+            src={qrCodeUrl}
+            alt="Dynamic UPI QR Code"
+            width={200}
+            height={200}
+            className="mx-auto border rounded-lg"
           />
-          <div className="flex space-x-4">
-            <input
-              type="text"
-              placeholder="MM/YY"
-              className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <input
-              type="text"
-              placeholder="CVV"
-              className="w-20 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          <p className="text-gray-600 text-sm mt-2">
+            Use PhonePe, Google Pay, or Paytm to complete your payment.
+          </p>
+          <div className="mt-4">
+            <a
+              href={qrCodeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline text-sm"
+            >
+              Having trouble scanning? Open link directly
+            </a>
           </div>
-          <input
-            type="text"
-            placeholder="Cardholder Name"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            type="submit"
-            className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-          >
-            Pay Now
-          </button>
-        </form>
+
+          <div className="mt-6">
+            <button
+              onClick={() => (window.location.href = qrCodeUrl)}
+              className="px-5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+            >
+              Open in UPI App
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

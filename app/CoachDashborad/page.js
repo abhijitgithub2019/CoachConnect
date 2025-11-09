@@ -23,15 +23,15 @@ export default function CoachLandingPage() {
       topics: ["Career", "Education"],
       availableTimes: {
         // date strings in yyyy-mm-dd format with available time slots
-        "2025-11-06": ["10AM - 12PM", "4PM - 5PM"],
-        "2025-11-07": [
+        "2025-11-09": ["10AM - 12PM", "4PM - 5PM"],
+        "2025-11-10": [
           "9AM - 11AM",
           "1PM - 2PM",
           "3PM - 4PM",
           "5PM - 8PM",
           "10PM -12PM",
         ],
-        "2025-11-08": ["9AM - 11AM", "3PM - 4PM"],
+        "2025-11-11": ["9AM - 11AM", "3PM - 4PM"],
         // add more dates and slots as needed
       },
       hourlyrRate: 2000,
@@ -42,8 +42,8 @@ export default function CoachLandingPage() {
       avatar: "/images/jane.jpg",
       topics: ["Career"],
       availableTimes: {
-        "2025-11-06": ["1PM - 3PM"],
-        "2025-11-08": ["2AM-4AM", "6PM-7PM"],
+        "2025-11-10": ["1PM - 3PM"],
+        "2025-11-11": ["2AM-4AM", "6PM-7PM"],
       },
       hourlyrRate: 20,
       currencyType: "DOLLARS",
@@ -53,8 +53,8 @@ export default function CoachLandingPage() {
       avatar: "/images/amit.jpg",
       topics: ["Wellness", "Education"],
       availableTimes: {
-        "2025-11-06": ["1AM-3PM"],
-        "2025-11-08": ["2PM-4PM", "6AM-7AM"],
+        "2025-11-11": ["1AM-3PM"],
+        "2025-11-12": ["2PM-4PM", "6AM-7AM"],
       },
       hourlyrRate: 400,
       currencyType: "INR",

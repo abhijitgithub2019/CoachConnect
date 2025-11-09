@@ -7,9 +7,9 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 // generator client {
 //   provider = "prisma-client-js"
-
 
 // datasource db {
 //   provider = "postgresql"
@@ -36,10 +36,43 @@ datasource db {
 //   url      = env("DATABASE_URL")
 // }
 
+enum Role {
+  STUDENT
+  INSTRUCTOR
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
 model User {
   id        String   @id @default(cuid())
   name      String?
   email     String   @unique
   password  String
+  role      Role     @default(STUDENT)
   createdAt DateTime @default(now())
+
+  // Relations
+  bookingsAsStudent    Booking[] @relation("StudentBookings")
+  bookingsAsInstructor Booking[] @relation("InstructorBookings")
+}
+
+model Booking {
+  id            Int           @id @default(autoincrement())
+  studentId     String
+  instructorId  String
+  merchantTxnId String        @unique
+  amount        Int
+  status        PaymentStatus @default(PENDING)
+  paymentMode   String?
+  bookedAt      DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // 👇 Each relation must match its opposite by name
+  student    User @relation("StudentBookings", fields: [studentId], references: [id])
+  instructor User @relation("InstructorBookings", fields: [instructorId], references: [id])
 }
