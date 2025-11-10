@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getInstructorList } from "../../lib/intructorList";
 import MenuBar from "../../menu/nav/page";
+import BackButton from "../../../component/backButton";
 
 // Import instructor data or fetch dynamically
 const INSTRUCTORS = getInstructorList();
@@ -26,6 +27,7 @@ export default async function InstructorDetails(props) {
     <div>
       <MenuBar isLogOut={true}></MenuBar>
       <div className="max-w-xl mx-auto mt-8 bg-white p-6 rounded shadow">
+        <BackButton></BackButton>
         <Image
           src={instructor.avatar}
           alt={instructor.name}
