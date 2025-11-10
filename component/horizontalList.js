@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import PaymentOptions from "./paymentOptions";
+import { useRouter } from "next/navigation";
 
 export default function InstructorList({ instructors, className }) {
   const [selectedInstructor, setSelectedInstructor] = useState(null);
@@ -13,6 +14,7 @@ export default function InstructorList({ instructors, className }) {
   const [currencyChangeFees, setCurrencyChangeFees] = useState(1);
   const [showPaymentOverlay, setShowPaymentOverlay] = useState(false);
   const scrollRef = useRef(null);
+  const router = useRouter();
 
   const getNext7Days = () => {
     const days = [];
@@ -85,6 +87,10 @@ export default function InstructorList({ instructors, className }) {
 
     setMaxDuration(endMins - startMins);
     setShowModal(true);
+  };
+
+  const goToDetails = (ins) => {
+    router.push(`/instructorDetails/${encodeURIComponent(ins.name)}`);
   };
 
   const handleDurationChange = (newDuration) => {
@@ -167,6 +173,15 @@ export default function InstructorList({ instructors, className }) {
                     width={200}
                   />
                   <div className="font-medium">{ins.name}</div>
+                  <button
+                    className="mt-3 w-full bg-blue-400 text-white rounded py-1 hover:bg-blue-500 transition"
+                    onClick={(e) => {
+                      e.stopPropagation(); // prevent triggering parent onClick
+                      goToDetails(ins);
+                    }}
+                  >
+                    More..
+                  </button>
                 </div>
               );
             })}
