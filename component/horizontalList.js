@@ -101,7 +101,7 @@ export default function InstructorList({ instructors, className }) {
                   </p>
                   {/* More Button */}
                   <button
-                    className="mt-3 w-full bg-blue-500 text-white rounded py-1 hover:bg-blue-600 transition"
+                    className="mt-3 w-full bg-blue-500 text-white rounded py-1 hover:bg-blue-600 transition cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
                       goToDetails(ins);

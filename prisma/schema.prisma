@@ -76,3 +76,11 @@ model Booking {
   student    User @relation("StudentBookings", fields: [studentId], references: [id])
   instructor User @relation("InstructorBookings", fields: [instructorId], references: [id])
 }
+
+model Otp {
+  id        Int      @id @default(autoincrement())
+  email     String
+  otp       String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
