@@ -1,5 +1,5 @@
-'use client'
-import { useRef, useState } from "react";
+"use client";
+import { useState } from "react";
 import PaymentOptions from "./paymentOptions";
 export default function SelectedInstructorDetails({ selectedInstructor }) {
   const [duration, setDuration] = useState(15); // minutes

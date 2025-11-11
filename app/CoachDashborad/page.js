@@ -36,6 +36,17 @@ export default function CoachLandingPage() {
         )
     );
   }
+  if(filtered.length) {
+    filtered = filtered.map((ins)=> {
+      return {
+        ...ins,
+        totalHours: ins.totalMinutes
+        ? Math.floor(ins.totalMinutes / 60): 0,
+        totalMinutes: ins.totalMinutes % 60
+      }
+    })
+   
+  }
   return (
     <div className="bg-zinc-50 min-h-screen w-full  bg-linear-to-br from-white via-blue-50 to-blue-100">
       <MenuBar isLogOut={true}></MenuBar>

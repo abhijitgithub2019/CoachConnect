@@ -92,7 +92,13 @@ export default function InstructorList({ instructors, className }) {
 
                   {/* Instructor Name */}
                   <div className="font-medium text-center">{ins.name}</div>
-
+                  <p className="font-medium text-center">
+                    {`${
+                      ins.totalHours
+                        ? `Total duration: ${ins.totalHours} hrs`
+                        : "New to coach connect"
+                    }`}
+                  </p>
                   {/* More Button */}
                   <button
                     className="mt-3 w-full bg-blue-500 text-white rounded py-1 hover:bg-blue-600 transition"
