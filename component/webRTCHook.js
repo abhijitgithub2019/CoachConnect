@@ -9,7 +9,10 @@ export const useWebRTC = (roomId) => {
   const localStreamRef = useRef(null);
 
   useEffect(() => {
-    const socket = io("http://localhost:4000");
+    const socket = io(process.env.NEXT_PUBLIC_SOCKET_SERVER_URL, {
+      transports: ["websocket"],
+    });
+    
     socketRef.current = socket;
   
     const startLocalStream = async () => {
